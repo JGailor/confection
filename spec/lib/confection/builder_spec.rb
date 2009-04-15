@@ -56,6 +56,39 @@ describe Confection::Builder do
           end.should == "<a><p><span><ul><li><span></span></li></ul></span></p></a>"
         end
       end
+      
+      describe "internal content" do
+        it "should create a tag with internal text" do
+          @builder.element("a") do
+            @builder.text "This is some text"
+          end.should == "<a>This is some text</a>"
+        end
+        
+        it "should create a tag with internal text and a sub-element" do
+          @builder.element("a") do
+            @builder.text "This is some text"
+            @builder.element("span")
+          end.should == "<a>This is some text<span></span></a>"
+        end
+      end
+    end
+  end
+  
+  describe "#method_missing" do
+    it "should create the element when method missing is triggered" do
+      @builder.a.should == "<a></a>"
+    end
+    
+    it "should create the element with the proper options when method missing is triggered" do
+      output = @builder.a(:id => "test", :class => ["a", "b", "c"])
+      output.should =~ /id="test"/
+      output.should =~ /class="a b c"/
+    end
+    
+    it "should create the element with the proper options and sub-elements when the method missing is triggered" do
+      @builder.a(:id => "test") do
+        @builder.p
+      end.should == "<a id=\"test\"><p></p></a>"
     end
   end
 end
