@@ -1,8 +1,16 @@
 require File.join(File.dirname(__FILE__), "..", "..", "spec_helper")
 
+class Confection::Builder::TestHelper
+  def initialize
+    @output = ""
+  end
+  
+  include Confection::Builder
+end
+
 describe Confection::Builder do
   before(:each) do
-    @builder = Confection::Builder.new
+    @builder = Confection::Builder::TestHelper.new
   end
   
   describe "element" do
