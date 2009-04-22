@@ -7,7 +7,8 @@ class Confection
     @output = ""
   end
   
-  def render
+  def render(instance_vars = {})
+    set_instance_variables(instance_vars)
     page
   end
   
@@ -32,5 +33,9 @@ class Confection
   
     def content
       # This needs to be over-ridden with the content of the page
+    end
+    
+    def set_instance_variables(instance_vars)
+      instance_vars.each {|key, val| instance_variable_set "@#{key}", val}
     end
 end

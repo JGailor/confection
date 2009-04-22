@@ -13,6 +13,10 @@ class Confection
     def p(*args, &block)
       method_missing(:p, *args, &block)
     end
+    
+    def widget(type, instance_vars = {})
+      @output += type.new.render(instance_vars)
+    end
   
     def method_missing(method, *args, &block)    
       if(args.size == 0)

@@ -9,6 +9,13 @@ describe Confection do
       confection.should_receive(:page).and_return(html_result)
       confection.render
     end
+    
+    it "should allow a hash to be passed which creates instance variables from the keys set to the corresponding values" do
+      confection = Confection.new
+      confection.render(:var1 => 1, :var2 => 2)
+      confection.instance_variable_get(:@var1).should == 1
+      confection.instance_variable_get(:@var2).should == 2
+    end
   end
   
   describe "#page" do
@@ -40,6 +47,10 @@ describe Confection do
   describe "Confection::Builder" do
     it "should mix-in Confection::Builder" do
       Confection.ancestors.should include(Confection::Builder)
+    end
+    
+    it "should add the widget method" do
+      Confection.new.methods.should include("widget")
     end
   end
 end
